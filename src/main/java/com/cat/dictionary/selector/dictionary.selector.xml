@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+	<Dictionary>
+		<query id="Dictionary_mainQuery_selector">
+			<isnative>true</isnative>
+			<sql>select o.code as code,o.name as name from Data_Dictionary o where 1=1
+				and o.is_leaf=1
+			</sql>
+			<countsql>select count(o.code) from Data_Dictionary o where 1=1
+				and o.is_leaf=1
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.code asc</orderby>
+		</query>
+	</Dictionary>
+</dictionary>

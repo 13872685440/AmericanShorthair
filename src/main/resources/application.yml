@@ -1,0 +1,61 @@
+server:
+  port: 8080
+spring:
+  favicon:
+    enabled: false
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    username: 'C##spring_boot'
+    password: spring_boot
+    driver-class-name: oracle.jdbc.OracleDriver
+  druid:
+    initialSize: 10
+    minIdle: 10
+    maxActive: 100
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 100
+    filters: stat
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.Oracle10gDialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        hibernate.enable_lazy_load_no_trans: true
+    show-sql: true
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    jedis:
+      pool:
+        max-active: 50
+        max-wait: 3000
+        max-idle: 300
+        min-idle: 30
+        maxActive: 1000
+    timeout: 5000
+  activiti:
+    database-schema-update: none
+    job-executor-activate: false
+    database-schema: ACT
+    check-process-definitions: false

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+	<Holiday>
+		<query id="Holiday_mainQuery">
+			<sql>select o from Holiday o where 1=1
+			</sql>
+			<countsql>select count(o.id) from Holiday o where 1=1
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.id desc</orderby>
+		</query>
+	</Holiday>
+	<Dictionary>
+		<query id="Dictionary_mainQuery">
+			<sql>select o from Dictionary o where 1=1
+				and ( (:name is null or
+				:name ='')
+				or lower(o.name) like
+				concat('%',concat(lower(:name
+				)),'%'))
+				and (
+				(:code is null or :code
+				='')
+				or lower(o.code) like
+				concat(concat(lower(:code )),'%'))
+			</sql>
+			<countsql>select count(o.id) from Dictionary o where 1=1
+				and ( (:name is null or
+				:name ='')
+				or lower(o.name) like
+				concat('%',concat(lower(:name
+				)),'%'))
+				and (
+				(:code is null or :code
+				='')
+				or lower(o.code) like
+				concat(concat(lower(:code )),'%'))
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.code asc</orderby>
+			<parm>
+				<name id="name">
+					<type>String</type>
+				</name>
+				<name id="code">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</Dictionary>
+	<Canton>
+		<query id="Canton_mainQuery">
+			<sql>select o from Canton o left join o.superior sc
+				where 1=1 and
+				((:wn is null or :wn
+				='') or
+				lower(o.wn) like
+				concat('%',concat(lower(:wn )),'%'))
+				and ((:code is
+				null or :code
+				='')
+				or
+				lower(o.code) like
+				concat('%',concat(lower(:code
+				)),'%'))
+				and ((:name
+				is null or :name
+				='') or
+				lower(o.name) like
+				concat('%',concat(lower(:name )),'%'))
+				and ((:scName is null or
+				:scName
+				='') or
+				lower(sc.name) like
+				concat('%',concat(lower(:scName
+				)),'%'))
+				and ((:scId is null or :scId
+				='') or
+				lower(sc.code) like
+				concat('%',concat(lower(:scId
+				)),'%'))
+				and ((:level is null or :level
+				='') or
+				lower(o.level) like
+				concat('%',concat(lower(:level
+				)),'%'))
+			</sql>
+			<countsql>select count(o.code) from Canton o left join o.superior sc
+				where 1=1 and ((:wn is
+				null or :wn
+				='') or
+				lower(o.wn) like
+				concat('%',concat(lower(:wn
+				)),'%'))
+				and ((:code is null or :code
+				='')
+				or
+				lower(o.code) like
+				concat('%',concat(lower(:code )),'%'))
+				and
+				((:name is null or :name
+				='') or
+				lower(o.name) like
+				concat('%',concat(lower(:name )),'%'))
+				and
+				((:scName is null or
+				:scName
+				='') or
+				lower(sc.name) like
+				concat('%',concat(lower(:scName
+				)),'%'))
+				and ((:scId is null or :scId
+				='') or
+				lower(sc.code) like
+				concat('%',concat(lower(:scId
+				)),'%'))
+				and ((:level is null or :level
+				='') or
+				lower(o.level) like
+				concat('%',concat(lower(:level
+				)),'%'))
+			</countsql>
+			<orderby>o.code asc</orderby>
+			<parm>
+				<name id="wn">
+					<type>String</type>
+				</name>
+				<name id="code">
+					<type>String</type>
+				</name>
+				<name id="name">
+					<type>String</type>
+				</name>
+				<name id="scId">
+					<type>String</type>
+				</name>
+				<name id="scName">
+					<type>String</type>
+				</name>
+				<name id="level">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</Canton>
+</dictionary>

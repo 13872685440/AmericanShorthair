@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file>
+	<YeWuBLZLWD>
+		<query id="YeWuBLZLWD_replaceTmpId">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>false</isnative>
+			<sql>update YeWuBLZLWD o set o.keyValue=:entityId
+				where
+				o.keyValue=:tmpId and o.ebcn=:ebcn
+			</sql>
+			<parm>
+				<name id="entityId">
+					<type>String</type>
+				</name>
+				<name id="tmpId">
+					<type>String</type>
+				</name>
+				<name id="ebcn">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</YeWuBLZLWD>
+</file>

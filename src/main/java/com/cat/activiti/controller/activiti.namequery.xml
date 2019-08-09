@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activiti>
+	<ProcessDefinitionBean>
+		<query id="ProcessDefinitionBean_mainQuery">
+			<isnative>true</isnative>
+			<sql>select o.* from act_re_procdef o where (1=1)
+			</sql>
+			<countsql>select count(o.id_) from act_re_procdef o where (1=1)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.key_ asc,o.version_ desc</orderby>
+		</query>
+	</ProcessDefinitionBean>
+	<Test>
+		<query id="Test_mainQuery">
+			<sql>select o from Test o where (1=1)
+			</sql>
+			<countsql>select count(o.id) from Test o where (1=1)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.ct desc</orderby>
+		</query>
+	</Test>
+	<Test2>
+		<query id="Test2_mainQuery">
+			<sql>select o from Test2 o where (1=1)
+			</sql>
+			<countsql>select count(o.id) from Test2 o where (1=1)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.ct desc</orderby>
+		</query>
+	</Test2>
+	<Test3>
+		<query id="Test3_mainQuery">
+			<sql>select o from Test3 o where (1=1)
+			</sql>
+			<countsql>select count(o.id) from Test3 o where (1=1)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.ct desc</orderby>
+		</query>
+	</Test3>
+	<Test4>
+		<query id="Test4_mainQuery">
+			<sql>select o from Test4 o where (1=1)
+			</sql>
+			<countsql>select count(o.id) from Test4 o where (1=1)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.ct desc</orderby>
+		</query>
+	</Test4>
+	<TaskExt>
+		<query id="TaskExt_mainQuery">
+			<sql>select o from TaskExt o where (1=1)
+				and (((o.taskType in
+				('待办','挂起','已领取'))
+				and (o.tqreason is null or
+				o.tqreason!='作废')
+				and
+				((o.transactor = #userId#)))
+				or ((o.taskType in
+				('待领取'))
+				and
+				(o.transactorgroups like
+				concat('%',concat(lower(#userId#)),'%'))))
+			</sql>
+			<countsql>select count(o.id) from TaskExt o where (1=1)
+				and
+				(((o.taskType in
+				('待办','挂起','已领取'))
+				and (o.tqreason is null or
+				o.tqreason!='作废')
+				and
+				((o.transactor = #userId#)))
+				or ((o.taskType in
+				('待领取'))
+				and
+				(o.transactorgroups like
+				concat('%',concat(lower(#userId#)),'%'))))
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.ct desc</orderby>
+		</query>
+	</TaskExt>
+</activiti>

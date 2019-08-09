@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+	<AppTree>
+		<query id="AppTree_mainQuery">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>false</isnative>
+			<sql>select o from AppTree o where 1=1
+				and ((:wn is null or :wn
+				='') or
+				lower(o.wn) like
+				concat('%',concat(lower(:wn )),'%'))
+				and
+				((:code is
+				null or :code ='') or lower(o.code) like
+				concat('%',concat(lower(:code )),'%'))
+				and ((:ct is null or :ct='')
+				or o.ct &lt;= :ct)
+			</sql>
+			<countsql>select count(o.code) from AppTree o where 1=1
+				and ((:wn is
+				null or :wn ='') or lower(o.wn) like
+				concat('%',concat(lower(:wn
+				)),'%'))
+				and ((:code is null or :code
+				='') or lower(o.code) like
+				concat('%',concat(lower(:code )),'%'))
+				and ((:ct is null or :ct='')
+				or o.ct &lt;= :ct)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.code asc</orderby>
+			<!-- parm 非必要节点 根据需要添加 -->
+			<parm>
+				<name id="wn">
+					<type>String</type>
+				</name>
+				<name id="code">
+					<type>String</type>
+				</name>
+				<name id="ct">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</AppTree>
+	<Organization>
+		<query id="Organization_mainQuery">
+			<sql>select o from Organization o where 1=1
+				and ( (:name is null or
+				:name ='')
+				or lower(o.name) like
+				concat('%',concat(lower(:name
+				)),'%'))
+				and (
+				(:code is null or :code ='')
+				or lower(o.code) like
+				concat(concat(lower(:code )),'%'))
+			</sql>
+			<countsql>select count(o.id) from Organization o where 1=1
+				and (
+				(:name is null or :name ='')
+				or lower(o.name) like
+				concat('%',concat(lower(:name )),'%'))
+				and (
+				(:code is null or :code
+				='')
+				or lower(o.code) like
+				concat(concat(lower(:code )),'%'))
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.code asc</orderby>
+			<parm>
+				<name id="name">
+					<type>String</type>
+				</name>
+				<name id="code">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</Organization>
+	<PostInformation>
+		<query id="PostInformation_mainQuery">
+			<sql>select o from PostInformation o where 1=1
+				and ( (:code is null or
+				:code ='')
+				or lower(o.organization.code) like
+				concat(concat(lower(:code )),'%')
+				or o.id=:code)
+			</sql>
+			<countsql>select count(o.id) from PostInformation o where 1=1
+				and (
+				(:code is null or
+				:code ='')
+				or lower(o.organization.code) like
+				concat(concat(lower(:code )),'%')
+				or o.id=:code)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.organization.code asc,o.weighted asc,o.xh asc</orderby>
+			<parm>
+				<name id="code">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</PostInformation>
+	<Role>
+		<query id="Role_mainQuery">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>false</isnative>
+			<sql>select o from Role o where 1=1
+				and ((:des
+				is null or :des
+				='') or
+				lower(o.des) like
+				concat('%',concat(lower(:des )),'%'))
+			</sql>
+			<countsql>select count(o.name) from Role o where 1=1
+				and ((:des is
+				null or :des
+				='')
+				or lower(o.des) like
+				concat('%',concat(lower(:des
+				)),'%'))
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.name asc</orderby>
+			<!-- parm 非必要节点 根据需要添加 -->
+			<parm>
+				<name id="des">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</Role>
+	<TaskRouter>
+		<query id="TaskRouter_mainQuery">
+			<sql>select o from TaskRouter o where (1=1)
+			</sql>
+			<countsql>select count(o.code) from TaskRouter o where (1=1)
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.code asc</orderby>
+		</query>
+	</TaskRouter>
+	<LogException>
+		<query id="LogException_mainQuery">
+			<sql>select o from LogException o where (1=1) 
+			and ((:username
+				is null or :username
+				='') or
+				lower(o.username) like
+				concat('%',concat(lower(:username )),'%'))
+				 and ((:path
+				is null or :path
+				='') or
+				lower(o.controllermethod) like
+				concat('%',concat(lower(:path )),'%'))
+			</sql>
+			<countsql>select count(o.id) from LogException o where (1=1) 
+			and ((:username
+				is null or :username
+				='') or
+				lower(o.username) like
+				concat('%',concat(lower(:username )),'%'))
+				 and ((:path
+				is null or :path
+				='') or
+				lower(o.controllermethod) like
+				concat('%',concat(lower(:path )),'%'))
+			</countsql>
+			<!-- orderby 非必要节点 无默认值 -->
+			<orderby>o.ct desc</orderby>
+			<parm>
+				<name id="username">
+					<type>String</type>
+				</name>
+				<name id="path">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</LogException>
+</system>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+	<User>
+		<query id="User_by_username">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>false</isnative>
+			<sql>select o.id as id,o.loginName as username,o.name as name,o.pwd
+				as password,o.salt as salt,o.dictionaryData as status from User o
+				where o.loginName =:loginName
+			</sql>
+			<parm>
+				<name id="loginName">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+		<query id="User_by_Ids">
+			<sql>select o from User o
+				where (1=1)
+				and (o.dictionaryData in
+				('1','2'))
+				and (o.id in :ids)
+				and (:organId is null or :organId='' or o.id in (select
+				p.person.id from
+				PostInformation p
+				where
+				p.organization.id=:organId))
+			</sql>
+			<parm>
+				<name id="ids">
+					<type>List</type>
+				</name>
+				<name id="organId">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</User>
+	<PostInformation>
+		<query id="User_by_PostInformation">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>true</isnative>
+			<sql>select p.id as id,t.name as name,o.code as code from sys_users t
+				,org_post_information
+				p,org_organization o
+				where t.id= p.person_id and
+				p.organization_id=o.code
+				and p.isleaf in (:leafs)
+			</sql>
+			<parm>
+				<name id="leafs">
+					<type>List</type>
+				</name>
+			</parm>
+		</query>
+	</PostInformation>
+	<Role>
+		<query id="Role_by_Ywids">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>false</isnative>
+			<sql>select o from Role o
+				where (1=1)
+				and (o.name in (select u.role
+				from UserRole x where x.ywid in
+				(:ywids)))
+			</sql>
+			<parm>
+				<name id="ywids">
+					<type>List</type>
+				</name>
+			</parm>
+		</query>
+	</Role>
+	<Permission>
+		<query id="Permission_by_RoleAndUserId">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>true</isnative>
+			<sql>select o.code from SYS_Permission o
+				where (1=1)
+				and (o.code in
+				(select x.permission from Org_User_Permission x where
+				x.ywid=:userId))
+				and (o.role_id in (:roles))
+			</sql>
+			<parm>
+				<name id="roles">
+					<type>List</type>
+				</name>
+				<name id="userId">
+					<type>String</type>
+				</name>
+			</parm>
+		</query>
+	</Permission>
+	<AppTree>
+		<query id="AppTree_by_Role">
+			<!-- isnative 非必要节点 默认为false -->
+			<isnative>false</isnative>
+			<sql>select o.app from RoleApp o
+				where (1=1)
+				and (o.role.name in
+				(:roles))
+				order by o.app.lxh asc
+			</sql>
+			<parm>
+				<name id="roles">
+					<type>List</type>
+				</name>
+			</parm>
+		</query>
+	</AppTree>
+</system>
