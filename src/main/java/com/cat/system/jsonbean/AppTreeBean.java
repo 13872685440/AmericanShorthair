@@ -44,6 +44,10 @@ public class AppTreeBean extends BaseAppBean {
 
 	private String icon;
 
+	private String fontFamily;
+
+	private Long fontCode;
+
 	public String getDes() {
 		return des;
 	}
@@ -156,6 +160,22 @@ public class AppTreeBean extends BaseAppBean {
 		this.icon = icon;
 	}
 
+	public String getFontFamily() {
+		return fontFamily;
+	}
+
+	public void setFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
+	}
+
+	public Long getFontCode() {
+		return fontCode;
+	}
+
+	public void setFontCode(Long fontCode) {
+		this.fontCode = fontCode;
+	}
+
 	public AppTreeBean() {
 
 	}
@@ -180,6 +200,8 @@ public class AppTreeBean extends BaseAppBean {
 		bean.setSuperior_name(entity.getSuperior() != null ? entity.getSuperior().getName() : "");
 		bean.setComponent(entity.getComponent());
 		bean.setIcon(entity.getIcon());
+		bean.setFontCode(entity.getFontCode());
+		bean.setFontFamily(entity.getFontFamily());
 
 		return bean;
 	}
@@ -209,10 +231,12 @@ public class AppTreeBean extends BaseAppBean {
 		if (!StringUtil.isEmpty(entity.getSuperior_code())) {
 			AppTree sup = (AppTree) baseService.findById(AppTree.class, entity.getSuperior_code());
 			bean.setSuperior(sup);
-			
-			bean.setLxh(sup.getLxh()*10 + bean.getXh());
-		}else {
+
+			bean.setLxh(sup.getLxh() * 10 + bean.getXh());
+		} else {
 			bean.setLxh(bean.getXh().longValue());
 		}
-	}	
+		bean.setFontCode(entity.getFontCode());
+		bean.setFontFamily(entity.getFontFamily());
+	}
 }

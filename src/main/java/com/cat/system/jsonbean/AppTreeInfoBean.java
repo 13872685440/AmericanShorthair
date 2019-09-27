@@ -29,6 +29,12 @@ public class AppTreeInfoBean {
 
 	private String icon;
 
+	private String fontFamily;
+
+	private Long fontCode;
+
+	private String colorCode;
+
 	private boolean hide = false;
 
 	private List<AppTreeInfoBean> children = new ArrayList<AppTreeInfoBean>();
@@ -105,12 +111,53 @@ public class AppTreeInfoBean {
 		this.hide = hide;
 	}
 
+	public String getFontFamily() {
+		return fontFamily;
+	}
+
+	public void setFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
+	}
+
+	public Long getFontCode() {
+		return fontCode;
+	}
+
+	public void setFontCode(Long fontCode) {
+		this.fontCode = fontCode;
+	}
+
+	public String getColorCode() {
+		return colorCode;
+	}
+
+	public void setColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
+
 	public List<AppTreeInfoBean> getChildren() {
 		return children;
 	}
 
 	public void setChildren(List<AppTreeInfoBean> children) {
 		this.children = children;
+	}
+
+	public static List<AppTreeInfoBean> iniAppTree_App(List<AppTree> entitys) {
+		List<AppTreeInfoBean> bs = new ArrayList<AppTreeInfoBean>();
+		for (AppTree entity : entitys) {
+			if (entity.getFontCode() != null && !StringUtil.isEmpty(entity.getFontFamily())) {
+				AppTreeInfoBean bean = new AppTreeInfoBean();
+				bean.setTitle(entity.getName());
+				bean.setPath(entity.getPath());
+				bean.setColorCode(entity.getColorCode());
+				bean.setFontCode(entity.getFontCode());
+				bean.setFontFamily(entity.getFontFamily());
+				bean.setCode(entity.getCode());
+				bs.add(bean);
+			}
+		}
+		return bs;
 	}
 
 	public static List<AppTreeInfoBean> iniAppTree(List<AppTree> entitys, BaseService baseService) {

@@ -8,9 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -49,7 +49,7 @@ public class UserInfoController {
 		String token = request.getHeader("Access-Token");
 		UserBean ybean = JSON.parseObject(redisUtils.get(token), UserBean.class);
 		UserInfoBean bean = new UserInfoBean(ybean);
-		bean.setAvatar("/logo.jpg");
+		bean.setAvatar("");
 		List<String> userRoles = new ArrayList<String>();
 		if ("admin".equals(bean.getUsername())) {
 			RoleInfoBean roleInfo = new RoleInfoBean("SYS_ADMINISTRATOR", "超级管理员", new ArrayList<PermissionInfoBean>());
@@ -108,18 +108,33 @@ public class UserInfoController {
 		ybean.setUserRoles(userRoles);
 
 		redisUtils.replace(token, JSONObject.toJSONString(ybean));
-
+		bean.setUserRoles(userRoles);
 		return ResultBean.getSucess(bean);
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/router", method = RequestMethod.GET)
-	public String router(@RequestParam List<String> roles) throws Exception {
+	@RequestMapping(value = "/router", method = RequestMethod.POST)
+	public String router(@RequestBody UserBean bean) throws Exception {
+		List<String> roles = bean.getUserRoles();
 		if (!StringUtil.isListEmpty(roles)) {
 			List<AppTree> apps = (List<AppTree>) baseService.getList("AppTree", "system", "AppTree_by_Role",
 					NameQueryUtil.setParams("roles", roles));
 			if (!StringUtil.isListEmpty(apps)) {
 				return ResultBean.getSucess(AppTreeInfoBean.iniAppTree(apps, baseService));
+			}
+		}
+		return ResultBean.getSucess("");
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/app_router", method = RequestMethod.POST)
+	public String app_router(@RequestBody UserBean bean) throws Exception {
+		List<String> roles = bean.getUserRoles();
+		if (!StringUtil.isListEmpty(roles)) {
+			List<AppTree> apps = (List<AppTree>) baseService.getList("AppTree", "system", "AppTree_by_Role",
+					NameQueryUtil.setParams("roles", roles));
+			if (!StringUtil.isListEmpty(apps)) {
+				return ResultBean.getSucess(AppTreeInfoBean.iniAppTree_App(apps));
 			}
 		}
 		return ResultBean.getSucess("");

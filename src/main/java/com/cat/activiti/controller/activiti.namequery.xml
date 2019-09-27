@@ -24,11 +24,24 @@
 	<Test2>
 		<query id="Test2_mainQuery">
 			<sql>select o from Test2 o where (1=1)
+				and ((:simple is
+				null or :simple ='') or lower(o.simple) like
+				concat('%',concat(lower(:simple
+				)),'%'))
 			</sql>
 			<countsql>select count(o.id) from Test2 o where (1=1)
+				and ((:simple is
+				null or :simple ='') or lower(o.simple) like
+				concat('%',concat(lower(:simple
+				)),'%'))
 			</countsql>
 			<!-- orderby 非必要节点 无默认值 -->
 			<orderby>o.ct desc</orderby>
+			<parm>
+				<name id="simple">
+					<type>String</type>
+				</name>
+			</parm>
 		</query>
 	</Test2>
 	<Test3>

@@ -86,8 +86,17 @@ public class AppTree extends BaseEntity {
 	@Basic(fetch = FetchType.LAZY)
 	private String titleImage;
 
+	/** 图标背景颜色(app) */
 	@Column(length = 10)
 	private String colorCode;
+	
+	/** 图标字体代码(app)*/
+	@Column
+	private Long fontCode;
+	
+	/** 图标库(app)*/
+	@Column(length = 30)
+	private String fontFamily; 
 
 	@Transient
 	private String id;
@@ -220,5 +229,21 @@ public class AppTree extends BaseEntity {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public Long getFontCode() {
+		return fontCode;
+	}
+
+	public void setFontCode(Long fontCode) {
+		this.fontCode = fontCode;
+	}
+
+	public String getFontFamily() {
+		return fontFamily;
+	}
+
+	public void setFontFamily(String fontFamily) {
+		this.fontFamily = fontFamily;
 	}
 }

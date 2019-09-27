@@ -22,7 +22,7 @@ public abstract class BaseNqtQuery<T> extends BaseQuery<T> {
 	private void iniQhb(BaseQueryHelp parms) {
 		getQhb().setParams(parms.getParams());
 		getQhb().setPageSize(parms.getPageSize() == 0 ? 20 : parms.getPageSize());
-		getQhb().setPageNo(parms.getPageNo());
+		getQhb().setPageNo(parms.getPageNo()== 0 ? 1 : parms.getPageNo());
 		getQhb().setSortOrder(parms.getSortOrder());
 		getQhb().setSortField(parms.getSortField());
 		getQhb().setUserId(parms.getUserId());

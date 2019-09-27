@@ -29,6 +29,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		String token = request.getHeader("Access-Token");
 
 		if (StringUtil.isEmpty(token) || !redisUtils.hasKey(token)) {
+
+			CatException.responseData(response, 401, "认证超时");
 			throw new CatException("认证超时");
 		}
 

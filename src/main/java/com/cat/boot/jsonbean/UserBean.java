@@ -20,9 +20,9 @@ public class UserBean {
 	private String salt;
 
 	private String status;
-	
+
 	private String service;
-	
+
 	private List<String> userRoles = new ArrayList<String>();
 
 	public String getId() {
@@ -106,6 +106,9 @@ public class UserBean {
 	}
 
 	public static UserBean getUserBean(Object obj) {
+		if (obj == null) {
+			return null;
+		}
 		Object[] object = (Object[]) obj;
 		UserBean bean = new UserBean();
 		bean.setId((String) object[0]);

@@ -59,8 +59,8 @@ public class QueryResultBean {
 	}
 
 	public QueryResultBean(BaseQueryHelp parms, Object result) {
-		this.pageSize = parms.getPageSize();
-		this.pageNo = parms.getPageNo();
+		this.pageSize = parms.getPageSize() == 0 ? 20 : parms.getPageSize();
+		this.pageNo = parms.getPageNo() == 0 ? 1 : parms.getPageNo();
 		this.totalCount = parms.getTotalRecordCount();
 		if (totalCount % pageSize > 0) {
 			this.totalPage = totalCount / pageSize + 1;

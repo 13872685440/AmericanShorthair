@@ -21,11 +21,12 @@ public class LoginController {
 	protected String iniToken(UserBean bean) {
 		String userId = bean.getId();
 		// web
-		if (isWeb(bean.getService())) {
-			userId = userId + "_web";
-		} else {
-			userId = userId + "_app";
-		}
+		// if (isWeb(bean.getService())) {
+		// userId = userId + "_web";
+		// } else {
+		// userId = userId + "_app";
+		// }
+		userId = userId + suffix(bean.getService());
 		String JWTtoken = JWTUtil.generateToken(bean.getId());
 		// 查询是否有redis中是否有userId
 		if (redisUtils.hasKey(userId)) {
@@ -48,7 +49,7 @@ public class LoginController {
 		// 加入token
 		bean.setToken(JWTtoken);
 		redisUtils.put(JWTtoken, JSONObject.toJSONString(bean));
-		
+
 		return JWTtoken;
 	}
 
@@ -57,6 +58,17 @@ public class LoginController {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	protected String suffix(String service) {
+		switch (service) {
+		case "webLoginService":
+			return "_web";
+		case "flutterLoginService":
+			return "_app";
+		default:
+			return "_web";
 		}
 	}
 }
