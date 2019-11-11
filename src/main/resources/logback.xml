@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- ============================================================================================== -->
+<!-- 《说明》 -->
+<!-- 1、configuration 中 debug="true" 属性配置表示输出logback本身状态信息，当不需要时，可以去除此配置 -->
+<!-- 2、自动重新加载配置：configuration 元素的 scan 属性为 true，当发生变化后进行重新配置，开发时建议用 -->
+<!-- =============================================================================================== -->
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+	
+	<!-- 日志基准目录，相对于Tomcat，也可定义绝对目录 -->
+	<property name="log.base" value="${user.dir}/logs" />
+	<property name="log.app" value="${log.base}/app" />
+	<property name="log.other" value="${log.base}/other" />
+ 
+	<jmxConfigurator />
+ 
+	<!-- 标准、缺省日志输出 把日志输出到控制台 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="WEB" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志文件名 -->
+		<file>${log.app}/web/web.log</file>
+        <!-- 过滤器，只记录INFO级别的日志 -->
+        <!-- 如果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 设置过滤级别 -->
+		    <level>INFO</level>
+            <!-- 用于配置符合过滤条件的操作 -->
+		    <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 -->
+		    <onMismatch>DENY</onMismatch>   
+		</filter>
+        <!-- 根据时间和文件大小来制定的滚动策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 文件命名模式 -->
+			<fileNamePattern>${log.app}/web/web-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--日志文件保留天数为30天，30天之前都会被删除-->
+		    <maxHistory>30</maxHistory>
+            <!-- 最大20MB 超过最大值，会重新建一个文件-->
+			<maxFileSize>20MB</maxFileSize>
+            <!-- 日志总保存量为10GB -->
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+        <!-- 设置日志内容输出格式 -->
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+ 
+	<appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.other}/debug/debug.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.other}/debug/debug-%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<maxFileSize>20MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+ 
+	<appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.other}/info/info.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.other}/info/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<maxFileSize>20MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+ 
+	<appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.other}/warn/warn.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.other}/warn/warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<maxFileSize>20MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+ 
+	<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.other}/error/error.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log.other}/error/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<maxFileSize>20MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+ 
+	<!-- 全局日志级别及输出方案 -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DEBUG" />
+		<appender-ref ref="INFO" />
+		<appender-ref ref="WARN" />
+		<appender-ref ref="ERROR" />
+	</root>
+</configuration>

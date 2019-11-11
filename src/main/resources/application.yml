@@ -59,3 +59,6 @@ spring:
     job-executor-activate: false
     database-schema: ACT
     check-process-definitions: false
+logging:
+  config:
+    classpath: logback.xml
